@@ -1,13 +1,15 @@
 package com.ria.springweb.entities;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.UniqueElements;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 public class Bird {
@@ -18,6 +20,7 @@ public class Bird {
     private int id;
 
     @NotNull
+    @Column(unique = true)
     private String name;
 
     @NotNull
