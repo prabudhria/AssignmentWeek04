@@ -3,6 +3,7 @@ package com.ria.springweb.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import java.text.DateFormat;
@@ -19,8 +20,7 @@ public class Bird {
     @NotNull
     private int id;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(nullable = false)
     private String name;
 
     @NotNull

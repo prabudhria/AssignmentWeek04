@@ -49,14 +49,14 @@ class BirdRestControllerTest {
     ObjectMapper objectMapper;
 
     @BeforeEach
-    public void Initializer() {
+    public void initializer() {
         samplebird = new Bird(ID, BIRDNAME, BIRDFAMILY, CONTINENTS, BIRDADDED, BIRDVISIBLE);
         objectMapper = new ObjectMapper();
     }
     @Test
-    public void TestGetBirds() throws Exception {
+    public void testGetBirds() throws Exception {
         List<Bird> birdslist = new ArrayList<>(); birdslist.add(samplebird);
-        when(birdService.GetBirds()).thenReturn(birdslist);
+        when(birdService.getBirds()).thenReturn(birdslist);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/birds"))
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(birdslist)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -74,8 +74,8 @@ class BirdRestControllerTest {
     }
 
     @Test
-    public void TestGetBirdById() throws Exception{
-        when(birdService.GetBird(ID)).thenReturn(samplebird);
+    public void testGetBirdById() throws Exception{
+        when(birdService.getBird(ID)).thenReturn(samplebird);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/birds/{ID}", 1))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse();
@@ -87,8 +87,8 @@ class BirdRestControllerTest {
 
 
     }@Test
-    public void TestGetBirdByName() throws Exception{
-        when(birdService.GetBird(BIRDNAME)).thenReturn(samplebird);
+    public void testGetBirdByName() throws Exception{
+        when(birdService.getBird(BIRDNAME)).thenReturn(samplebird);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/birds/name?name={BIRDNAME}", BIRDNAME))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn().getResponse();
@@ -102,8 +102,8 @@ class BirdRestControllerTest {
     }
 
     @Test
-    public void TestAddBird() throws Exception {
-        when(birdService.AddBird(any())).thenReturn(samplebird);
+    public void testAddBird() throws Exception {
+        when(birdService.addBird(any())).thenReturn(samplebird);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.post("/birds").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(samplebird)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(samplebird), true))
@@ -117,9 +117,9 @@ class BirdRestControllerTest {
     }
 
     @Test
-    public void TestUpdateBird() throws Exception {
+    public void testUpdateBird() throws Exception {
         samplebird.setName(UPDATEDBIRDNAME);
-        when(birdService.UpdateBird(any())).thenReturn(samplebird);
+        when(birdService.updateBird(any())).thenReturn(samplebird);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.put("/birds").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(samplebird)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.content().json(objectMapper.writeValueAsString(samplebird), true))
@@ -132,7 +132,7 @@ class BirdRestControllerTest {
     }
 
     @Test
-    public void TestDeleteBird() throws Exception {
+    public void testDeleteBird() throws Exception {
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.delete("/birds/{ID}", 1))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
                 .andReturn().getResponse();

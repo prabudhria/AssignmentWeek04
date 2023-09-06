@@ -5,9 +5,9 @@ import com.ria.springweb.respository.BirdRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class BirdService {
@@ -16,35 +16,47 @@ public class BirdService {
     BirdRespository birdRespository;
     private int id;
 
-    public List<Bird> GetBirds() {
-        return (List<Bird>) birdRespository.findAll();
+    public List<Bird> getBirds() {
+        return (List<Bird>) birdRespository.findAllByVisibleTrue();
     }
 
-    public Bird GetBird(String name) {
+    public Bird getBird(String name) {
         Bird bird = birdRespository.findByName(name);
-        if (bird == null) throw new NoSuchElementException("Can't find Bird of given name");
+        if (bird == null) throw new NoSuchElementException();
+        else return bird;
+    }
+    public Bird getBird(String name, String family) {
+        Bird bird = birdRespository.findByNameAndFamily(name, family);
+        if (bird == null) throw new NoSuchElementException();
         else return bird;
     }
 
-    public Bird GetBird(int id) {
+    public Bird getBird(int id) {
         Optional<Bird> bird = birdRespository.findById(id);
         if (bird.isPresent()) {
             return bird.get();
-        } else throw new NoSuchElementException("Can't find Bird of given ID");
+        } else throw new NoSuchElementException();
     }
 
-    public Bird AddBird(Bird bird) {
-
+    public Bird addBird(Bird bird) {
+        if(bird.getAdded()==null) addDate(bird);
         return birdRespository.save(bird);
     }
 
-    public Bird UpdateBird(Bird bird) {
+    public Bird updateBird(Bird bird) {
+        if(bird.getAdded()==null) addDate(bird);
         return birdRespository.save(bird);
     }
 
-    public void DeleteBird(int id) {
+    public void deleteBird(int id) {
         if (birdRespository.findById(id).isPresent()) birdRespository.deleteById(id);
         else throw new NoSuchElementException();
 
+    }
+
+    public void addDate(Bird bird){
+            Date date = Calendar.getInstance().getTime();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            bird.setAdded(dateFormat.format(date));
     }
 }
