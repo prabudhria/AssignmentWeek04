@@ -1,7 +1,7 @@
 package com.ria.springweb.service;
 
 import com.ria.springweb.entities.Bird;
-import com.ria.springweb.respository.BirdRespository;
+import com.ria.springweb.respository.BirdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,26 +13,26 @@ import java.util.*;
 public class BirdService {
 
     @Autowired
-    BirdRespository birdRespository;
+    BirdRepository birdRepository;
     private int id;
 
     public List<Bird> getBirds() {
-        return (List<Bird>) birdRespository.findAllByVisibleTrue();
+        return (List<Bird>) birdRepository.findAllByVisibleTrue();
     }
 
     public Bird getBird(String name) {
-        Bird bird = birdRespository.findByName(name);
+        Bird bird = birdRepository.findByName(name);
         if (bird == null) throw new NoSuchElementException();
         else return bird;
     }
     public Bird getBird(String name, String family) {
-        Bird bird = birdRespository.findByNameAndFamily(name, family);
+        Bird bird = birdRepository.findByNameAndFamily(name, family);
         if (bird == null) throw new NoSuchElementException();
         else return bird;
     }
 
     public Bird getBird(int id) {
-        Optional<Bird> bird = birdRespository.findById(id);
+        Optional<Bird> bird = birdRepository.findById(id);
         if (bird.isPresent()) {
             return bird.get();
         } else throw new NoSuchElementException();
@@ -40,16 +40,16 @@ public class BirdService {
 
     public Bird addBird(Bird bird) {
         if(bird.getAdded()==null) addDate(bird);
-        return birdRespository.save(bird);
+        return birdRepository.save(bird);
     }
 
     public Bird updateBird(Bird bird) {
         if(bird.getAdded()==null) addDate(bird);
-        return birdRespository.save(bird);
+        return birdRepository.save(bird);
     }
 
     public void deleteBird(int id) {
-        if (birdRespository.findById(id).isPresent()) birdRespository.deleteById(id);
+        if (birdRepository.findById(id).isPresent()) birdRepository.deleteById(id);
         else throw new NoSuchElementException();
 
     }

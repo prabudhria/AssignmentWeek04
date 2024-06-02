@@ -16,14 +16,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -63,13 +61,6 @@ class BirdRestControllerTest {
                 .andReturn().getResponse();
         assertEquals(200, response.getStatus());
         List<Bird> receivedBird = objectMapper.readValue(response.getContentAsString(), new TypeReference<List<Bird>>(){});
-
-        assertEquals(ID, receivedBird.get(0).getId());
-        assertEquals(BIRDNAME, receivedBird.get(0).getName());
-        assertEquals(BIRDFAMILY, receivedBird.get(0).getFamily());
-        assertEquals(BIRDADDED, receivedBird.get(0).getAdded());
-        assertEquals(CONTINENTS, receivedBird.get(0).getContinents());
-        assertTrue(receivedBird.get(0).isVisible());
         assertThat(samplebird).isEqualToComparingFieldByField(receivedBird.get(0));
     }
 
@@ -84,9 +75,9 @@ class BirdRestControllerTest {
         assertEquals(200, response.getStatus());
 
         assertThat(samplebird).isEqualToComparingFieldByField(receivedBird);
+    }
 
-
-    }@Test
+    @Test
     public void testGetBirdByName() throws Exception{
         when(birdService.getBird(BIRDNAME)).thenReturn(samplebird);
         MockHttpServletResponse response = mockMvc.perform(MockMvcRequestBuilders.get("/birds/name?name={BIRDNAME}", BIRDNAME))

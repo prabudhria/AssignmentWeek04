@@ -3,6 +3,7 @@ package com.ria.springweb.controllers;
 import com.ria.springweb.entities.Bird;
 import com.ria.springweb.service.BirdService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
+@Slf4j
 public class BirdRestController {
     @Autowired
     BirdService birdService;
-
-    private final Logger log = LoggerFactory.getLogger(BirdRestController.class);
 
     @GetMapping(value = "/birds")
     public ResponseEntity<List<Bird>> getBirds(){
