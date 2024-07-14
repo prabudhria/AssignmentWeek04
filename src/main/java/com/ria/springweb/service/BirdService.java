@@ -21,6 +21,7 @@ public class BirdService {
     }
 
     public Bird getBird(String name) {
+        id = 2;
         Bird bird = birdRespository.findByName(name);
         if (bird == null) throw new NoSuchElementException();
         else return bird;
