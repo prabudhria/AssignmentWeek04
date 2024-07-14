@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Entity
 public class Bird {
-
+    private String myName = "Prabudh";
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @NotNull
